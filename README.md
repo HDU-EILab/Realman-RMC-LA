@@ -12,11 +12,11 @@
 
 ## 仓库范围说明
 
-| 包含 | 不包含（有意排除） |
-|------|-------------------|
-| 机械臂 JSON 调试 GUI（直连 / SSH 跳板） | `Vision2DexterousHand/`（视觉灵巧手子项目，独立维护） |
-| 底盘 ROS 侧示例/驱动片段 `remote_agv_driver.py` | 以 `_` 开头的本地一次性调试脚本（见 `.gitignore`） |
-| 接口文档、`realman-rmc-la` OpenClaw Skill | 主控 `catkin_ws` 内大型厂商 PDF（请在现场机器查阅） |
+| 包含 |
+|------|
+| 机械臂 JSON 调试 GUI（直连 / SSH 跳板）|
+| 底盘 ROS 侧示例/驱动片段 `remote_agv_driver.py`|
+| 接口文档、`realman-rmc-la` OpenClaw Skill|
 
 ---
 
@@ -50,7 +50,7 @@ pip install -r requirements.txt
 
 3. **依赖说明**  
    - **`paramiko`**：SSH 跳板版 GUI、以及「底盘」分页通过 SSH 在主控执行 ROS 相关脚本时 **必需**。  
-   - **`opencv-python`、`mediapipe`**：仅在使用 **手势控制灵巧手** 时需要；不用手势可暂不安装。  
+   - **`opencv-python`、`mediapipe`**：仅在使用 **手势控制灵巧手** 时需要；不用手势可暂不安装（这个可以不用考虑）。  
    - **`tkinter`**：通常随 Python 官方安装包提供；Linux 若缺失请安装系统包（如 `python3-tk`）。
 
 4. **运行**  
@@ -65,20 +65,22 @@ python hand_debug_gui_ssh_jump.py
 
 ### 主控（Ubuntu + ROS1，运行底盘/驱动）
 
-- 安装 **ROS Noetic**（或现场实际版本）、配置 **`catkin_ws`**。  
-- 底盘：`roslaunch agv_ros agv_start.launch`（详见 `INTERFACE_REFERENCE.md` §3）。  
-- `remote_agv_driver.py` 需放入 catkin 包内按 ROS 节点方式编译运行，依赖 `agv_ros` 等消息包。
+- Nomachine连接Jetson主控板，IP应该固定为.0.115，如果有变可以登录路由器网关（密码同wifi密码）查看IP
+- 底盘：需要提前运行`roslaunch agv_ros agv_start.launch`（详见 `INTERFACE_REFERENCE.md` §3）。  
+- `remote_agv_driver.py` 需放入 catkin 包内按 ROS 节点方式编译运行，依赖 `agv_ros` 等消息包（这块我没去搞，不清楚具体是啥情况）。
 
 ---
 
-## WEB 示教器操作（概要）
+## 示教器操作（概要）
 
 详细步骤与 JSON 单位对照见 **[INTERFACE_REFERENCE.md §6](./INTERFACE_REFERENCE.md#6-web-示教器操作概要睿尔曼-rm-系列)**。要点：
 
-1. 浏览器访问控制器 **WEB 示教**（IP/端口以现场为准）。  
-2. **示教** 分页下 **关节 1～6** 一般以 **度(°)** 显示；**TCP JSON** 中 `joint` 多为 **0.001° 整数**（÷1000 与界面对齐）。  
-3. 使用 **`+` / `-`** 微调关节；运动前确认空间安全。  
-4. 急停/轨迹控制可在示教器完成，也可通过 JSON（`set_arm_stop`、`set_arm_pause` 等）完成。
+1. 如果要访问realmna自己的示教器，需要网线直连，修改网段到10，机械臂IP固定为.10.18，底盘IP固定为.10.18:9001。
+2. **底盘AGV**分页下急停以**软急停触发**和**软急停解除**为准，软急停触发时可以任意移动底盘。
+3. 大部分按钮功能已经弃用，尤其是**灵巧手手势控制**板块，该板块是我之前做着玩的，效果不太行，所以我没有上传相应代码。 
+4. **底盘AGV**中**导航到标记**按钮对应的标记点名需要在底盘web示教器中查看和添加，可以nomachine连接主控板后再登录web示教器查看。
+5. **升降平台**接口可能弃用，这块控制属于所谓*扩展*，我没有找到相应控制接口，需要访问机械臂示教器查看（jetson板端无法打开web示教器是正常情况）。
+6. 升降平台目前是零位，如果需要下降，需要在web示教器端先**设零位**，然后可以下降10mm（这个设定死了，我改不了）。
 
 ---
 
@@ -124,18 +126,9 @@ cd Realman-RMC-LA
 
 - 为 `main` 开启 **分支保护**，通过 **Pull Request** 合并。  
 - Issue / Discussion 中勿贴密码与内网拓扑细节。  
-- 修改现场 IP、寄存器地址后，在 PR 说明中记录变更原因。
-
-**新建空仓库后首次推送（参考）**：在 `Realman` 目录执行 `git init`、`git add -A`、`git commit`、`git remote add origin …`、`git push -u origin main`。若使用 [GitHub CLI](https://cli.github.com/)：`gh repo create HDU-EILab/Realman-RMC-LA --public --source=. --remote=origin --push`（私有仓库可将 `--public` 改为 `--private`）。
-
----
-
-## 安全声明
-
-本仓库工具会直接发送运动与 IO 指令，**仅限实验室授权网络与设备上使用**。使用人需遵守实验室安全规范；因误操作或配置错误导致的设备或人身损害，**责任由操作者自负**。
 
 ---
 
 ## 许可证
 
-[MIT License](LICENSE) — 允许组织内自由使用与修改，但**不**免除安全操作责任。
+[MIT License](LICENSE) — 允许组织内自由使用与修改
