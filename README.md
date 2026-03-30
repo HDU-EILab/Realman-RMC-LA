@@ -2,7 +2,11 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+**GitHub**：<https://github.com/HDU-EILab/Realman-RMC-LA>
+
 杭州电子科技大学 **HDU-EILab** 实验室 **Realman 复合机器人（机械臂 + 灵巧手 + 升降 + 云迹底盘）** 相关调试代码、接口说明与 OpenClaw Skill。**仓库意图**：便于组织内成员查看、修改与分享，支持课题交接。
+
+> 仓库内附带 **`lift_platform_manual_V1.3.pdf`**（升降平台手册）、**睿尔曼 6 自由度机械臂 JSON 通信协议 v3.5.3.pdf**（TCP 指令细节）；更系统的表格与 ROS 说明仍以 **[INTERFACE_REFERENCE.md](./INTERFACE_REFERENCE.md)** 为准。
 
 ---
 
@@ -109,35 +113,20 @@ Realman/
 
 ---
 
-## 推送到 GitHub（组织 HDU-EILab）
-
-1. 在 GitHub 上由组织所有者创建仓库 **`HDU-EILab/Realman-RMC-LA`**（建议 **Public**，便于成员 clone；若敏感可 Private 并只加组织成员）。  
-2. 本地首次提交（在 **`Realman` 目录** 下执行）：
+## 克隆与协作
 
 ```bash
-cd Realman
-git init
-git add -A
-git status   # 确认无 Vision2DexterousHand、无 _*.py
-git commit -m "Initial commit: Realman RMC-LA tools and interface docs"
-git branch -M main
-git remote add origin https://github.com/HDU-EILab/Realman-RMC-LA.git
-git push -u origin main
+git clone https://github.com/HDU-EILab/Realman-RMC-LA.git
+cd Realman-RMC-LA
 ```
 
-3. **协作建议**  
-   - 为 `main` 开启 **分支保护**，通过 **Pull Request** 合并。  
-   - Issue / Discussion 中勿贴密码与内网拓扑细节。  
-   - 修改现场 IP、寄存器地址后，可在 PR 说明中记录变更原因。
+**协作建议**
 
-4. 若已安装 [GitHub CLI](https://cli.github.com/) 且已登录：
+- 为 `main` 开启 **分支保护**，通过 **Pull Request** 合并。  
+- Issue / Discussion 中勿贴密码与内网拓扑细节。  
+- 修改现场 IP、寄存器地址后，在 PR 说明中记录变更原因。
 
-```bash
-cd Realman
-gh repo create HDU-EILab/Realman-RMC-LA --public --source=. --remote=origin --push
-```
-
-（若组织策略要求私有仓库，将 `--public` 改为 `--private`。）
+**新建空仓库后首次推送（参考）**：在 `Realman` 目录执行 `git init`、`git add -A`、`git commit`、`git remote add origin …`、`git push -u origin main`。若使用 [GitHub CLI](https://cli.github.com/)：`gh repo create HDU-EILab/Realman-RMC-LA --public --source=. --remote=origin --push`（私有仓库可将 `--public` 改为 `--private`）。
 
 ---
 
