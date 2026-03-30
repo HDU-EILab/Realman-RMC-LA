@@ -1,0 +1,6 @@
+# 机械臂调试 GUI（本机直连或 SSH 跳板版）
+paramiko>=3.0
+
+# 可选：仅在使用「手势控制灵巧手」时需要
+opencv-python>=4.8.0
+mediapipe>=0.10.0

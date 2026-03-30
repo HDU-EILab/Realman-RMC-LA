@@ -1,0 +1,23 @@
+{
+  "slug": "openclaw-realman-rmc-la",
+  "version": "1.3.2",
+  "name": "OpenClaw · Realman RMC-LA System Control Skill",
+  "description": "Realman skill for OpenClaw deployment with strict one-way release: maintain only in repository source skill directory and manually copy to deployment skills folder.",
+  "entry": "skill.md",
+  "runtime": "auto",
+  "env": "system-python",
+  "setup": {
+    "windows": "Ensure network reachability to jump host; Python available for socket tests.",
+    "linux": "Ensure SSH and python3 on jump host.",
+    "check_deps": [
+      "ssh client",
+      "python socket"
+    ]
+  },
+  "migration": {
+    "project_root": ".",
+    "skill_doc": "skill.md",
+    "runtime_config": "runtime_config.json"
+  }
+}
+

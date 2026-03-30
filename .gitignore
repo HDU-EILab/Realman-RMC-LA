@@ -1,0 +1,29 @@
+# 不入库：视觉灵巧手子项目（体积/依赖独立维护，交接范围外）
+Vision2DexterousHand/
+*.7z
+
+# 不入库：本地一次性调试脚本（以下划线开头）
+_*.py
+
+# 不入库：来源不明的临时 PDF（需要可改名单独加入）
+_bbs_bb301c61.pdf
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+.env
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# 编辑器与系统
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
